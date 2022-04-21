@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lollipop.Helpers\Lollipop.Helpers.csproj" />
     <ProjectReference Include="..\Lollipop.Models\Lollipop.Models.csproj" />
     <ProjectReference Include="..\Lollipop.Services\Lollipop.Services.csproj" />
   </ItemGroup>
