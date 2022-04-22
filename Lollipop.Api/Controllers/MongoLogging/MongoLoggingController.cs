@@ -24,11 +24,11 @@ namespace Lollipop.Api.Controllers.MongoLogging
         /// </summary>
         /// <param name="collectionName">Collection name.</param>
         /// <param name="limit">Maximum logs to retrieve.</param>
-        /// <param name="filterModel.group"></param>
-        /// <param name="filterModel.logLevels"></param>
-        /// <param name="filterModel.startDate"></param>
-        /// <param name="filterModel.endDate"></param>
-        /// <param name="filterModel.latest"></param>
+        /// <param name="filterModel.group">Group that logs belong to.</param>
+        /// <param name="filterModel.logLevels">Critical level of the logs.</param>
+        /// <param name="filterModel.startDate">Logs range from.</param>
+        /// <param name="filterModel.endDate">Logs range to.</param>
+        /// <param name="filterModel.latest">Get by latest logs or oldest log.</param>
         /// <returns>List of logs along with total collection size and count.</returns>
         [HttpPost]
         [Route(nameof(MongoLoggingController.GetOutermostLogs))]
@@ -50,15 +50,15 @@ namespace Lollipop.Api.Controllers.MongoLogging
         /// <summary>
         /// Get Latest or Oldest logs.
         /// </summary>
-        /// <param name="collectionName"></param>
-        /// <param name="limit"></param>
-        /// <param name="filterModel.group"></param>
-        /// <param name="filterModel.logLevels"></param>
-        /// <param name="filterModel.startDate"></param>
-        /// <param name="filterModel.endDate"></param>
-        /// <param name="filterModel.pivotId"></param>
-        /// <param name="filterModel.getAfterPivotId"></param>
-        /// <returns></returns>
+        /// <param name="collectionName">Collection name.</param>
+        /// <param name="limit">Maximum logs to retrieve.</param>
+        /// <param name="filterModel.group">Group that logs belong to.</param>
+        /// <param name="filterModel.logLevels">Critical level of the logs.</param>
+        /// <param name="filterModel.startDate">Logs range from.</param>
+        /// <param name="filterModel.endDate">Logs range to.</param>
+        /// <param name="filterModel.pivotId">Id of the pivot log.</param>
+        /// <param name="filterModel.getAfterPivotId">Get logs after the pivot log or before the pivot log.</param>
+        /// <returns>List of logs along with total collection size and count.</returns>
         [HttpPost]
         [Route(nameof(MongoLoggingController.GetNearbyLogs))]
         [ProducesResponseType(typeof(GetLogsResponse), StatusCodes.Status200OK)]
@@ -77,10 +77,9 @@ namespace Lollipop.Api.Controllers.MongoLogging
         }
 
         /// <summary>
-        /// 
+        /// Delete log collection by name.
         /// </summary>
-        /// <param name="collectionName"></param>
-        /// <returns></returns>
+        /// <param name="collectionName">Name of the collection to be deleted.</param>
         [HttpDelete]
         [Route(nameof(MongoLoggingController.DeleteCollection))]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -100,18 +99,17 @@ namespace Lollipop.Api.Controllers.MongoLogging
         }
 
         /// <summary>
-        /// 
+        /// Insert logs into collection.
         /// </summary>
-        /// <param name="logs.id"></param>
-        /// <param name="logs.createdDate"></param>
-        /// <param name="logs.logLevel"></param>
-        /// <param name="logs.message"></param>
-        /// <param name="logs.stackTrace"></param>
-        /// <param name="logs.source"></param>
-        /// <param name="logs.group"></param>
-        /// <param name="logs.code"></param>
-        /// <param name="collectionName"></param>
-        /// <returns></returns>
+        /// <param name="logs.id">Not required, auto generated!</param>
+        /// <param name="logs.createdDate">Not required, auto generated!</param>
+        /// <param name="logs.logLevel">Critical level of the logs.</param>
+        /// <param name="logs.message">Message of the log.</param>
+        /// <param name="logs.stackTrace">Exception stack trace if any.</param>
+        /// <param name="logs.source">Exception source if any.</param>
+        /// <param name="logs.group">Group that logs belong to.</param>
+        /// <param name="logs.code">Exception code.</param>
+        /// <param name="collectionName">Name of the collection.</param>
         [HttpPost]
         [Route(nameof(MongoLoggingController.InsertLogs))]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -131,9 +129,9 @@ namespace Lollipop.Api.Controllers.MongoLogging
         }
 
         /// <summary>
-        /// 
+        /// Get all collection names.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of string for collection names.</returns>
         [HttpGet]
         [Route(nameof(MongoLoggingController.GetCollectionNames))]
         [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
