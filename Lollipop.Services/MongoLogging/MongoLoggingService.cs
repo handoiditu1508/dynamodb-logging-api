@@ -56,7 +56,7 @@ namespace Lollipop.Services.MongoLogging
         {
             var collection = await GetCollection(request.CollectionName);
 
-            var sort = Builders<MongoLoggingModel>.Sort.Descending("$natural");
+            var sort = new BsonDocument("$natural", -1);
             var filter = GetFilterExpression(request.PivotId, request.GetAfterPivotId);
 
             var findFluent = collection.Find(filter).Sort(sort).Limit(request.Limit);
