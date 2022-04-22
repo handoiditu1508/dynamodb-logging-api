@@ -5,7 +5,8 @@ namespace Lollipop.Services.MongoLogging.Abstractions
 {
     public interface IMongoLoggingService
     {
-        Task<GetLogsResponse> GetLogs(GetLogsRequest request);
+        Task<GetLogsResponse> GetOutermostLogs(GetOutermostLogsRequest request);
+        Task<GetLogsResponse> GetNearbyLogs(GetNearbyLogsRequest request);
         Task DeleteCollection(string collectionName);
         Task InsertLogs(InsertLogsRequest request);
         Task<IEnumerable<string>> GetCollectionNames();

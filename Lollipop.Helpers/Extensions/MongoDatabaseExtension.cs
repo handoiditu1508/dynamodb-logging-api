@@ -9,7 +9,7 @@ namespace Lollipop.Helpers.Extensions
         {
             var filter = new BsonDocument("name", name);
             //filter by collection name
-            var collections = await database.ListCollectionsAsync(new ListCollectionsOptions { Filter = filter });
+            var collections = await database.ListCollectionNamesAsync(new ListCollectionNamesOptions { Filter = filter });
             //check for existence
             return await collections.AnyAsync();
         }

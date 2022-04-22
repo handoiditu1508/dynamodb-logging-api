@@ -34,8 +34,10 @@ namespace Lollipop.Services.MongoLogging
 
         private IMongoDatabase GetDatabase() => BuildMongoClient().GetDatabase(_databaseName);
 
-        private async Task<IMongoCollection<MongoLoggingModel>> GetCollection(string name)
+        private async Task<IMongoCollection<LoggingModel>> GetCollection(string name)
         {
+            IMongoCollection<LoggingModel> collection;
+
             if (!await _database.CollectionExists(name))
             {
                 var options = new CreateCollectionOptions
@@ -45,25 +47,77 @@ namespace Lollipop.Services.MongoLogging
                     MaxDocuments = AppSettings.MongoLogging.MaxDocuments
                 };
                 await _database.CreateCollectionAsync(name, options);
-            }
 
-            var collection = _database.GetCollection<MongoLoggingModel>(name);
+                collection = _database.GetCollection<LoggingModel>(name);
+
+                await CreateIndexes(collection);
+            }
+            else collection = _database.GetCollection<LoggingModel>(name);
 
             return collection;
         }
 
-        public async Task<GetLogsResponse> GetLogs(GetLogsRequest request)
+        private async Task<IEnumerable<string>> CreateIndexes(IMongoCollection<LoggingModel> collection)
         {
+            var builder = Builders<LoggingModel>.IndexKeys;
+            var indexModels = new List<CreateIndexModel<LoggingModel>>
+            {
+                new CreateIndexModel<LoggingModel>(builder.Ascending(x => x.CreatedDate)),
+                new CreateIndexModel<LoggingModel>(builder.Ascending(x => x.LogLevel)),
+                new CreateIndexModel<LoggingModel>(builder.Ascending(x => x.Group))
+            };
+            return await collection.Indexes.CreateManyAsync(indexModels);
+        }
+
+        public async Task<GetLogsResponse> GetOutermostLogs(GetOutermostLogsRequest request)
+        {
+            if (request.CollectionName.IsNullOrWhiteSpace())
+                throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.CollectionName));
+
+            if (request.FilterModel == null)
+                throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.FilterModel));
+
             var collection = await GetCollection(request.CollectionName);
 
-            var sort = new BsonDocument("$natural", -1);
-            var filter = GetFilterExpression(request.PivotId, request.GetAfterPivotId);
+            var sort = new BsonDocument("$natural", request.FilterModel.Latest ? -1 : 1);
+            var filter = request.FilterModel.BuildBsonDocument();
 
             var findFluent = collection.Find(filter).Sort(sort).Limit(request.Limit);
             var logs = await findFluent.ToListAsync();
-            logs.Reverse();
+            if (request.FilterModel.Latest)
+                logs.Reverse();
 
-            var stats = GetCollectionStats(request.CollectionName);
+            var response = BuildLogsResponse(request.CollectionName, logs);
+
+            return response;
+        }
+
+        public async Task<GetLogsResponse> GetNearbyLogs(GetNearbyLogsRequest request)
+        {
+            if (request.CollectionName.IsNullOrWhiteSpace())
+                throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.CollectionName));
+
+            if (request.FilterModel == null)
+                throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.FilterModel));
+
+            var collection = await GetCollection(request.CollectionName);
+
+            var sort = new BsonDocument("$natural", request.FilterModel.GetAfterPivotId ? 1 : -1);
+            var filter = request.FilterModel.BuildBsonDocument();
+
+            var findFluent = collection.Find(filter).Sort(sort).Limit(request.Limit);
+            var logs = await findFluent.ToListAsync();
+            if (!request.FilterModel.GetAfterPivotId)
+                logs.Reverse();
+
+            var response = BuildLogsResponse(request.CollectionName, logs);
+
+            return response;
+        }
+
+        private GetLogsResponse BuildLogsResponse(string collectionName, IEnumerable<LoggingModel> logs)
+        {
+            var stats = GetCollectionStats(collectionName);
 
             var response = new GetLogsResponse
             {
@@ -77,23 +131,6 @@ namespace Lollipop.Services.MongoLogging
             return response;
         }
 
-        private BsonDocument GetFilterExpression(string id, bool getAfterId)
-        {
-            BsonDocument filter;
-
-            if (id.IsNullOrWhiteSpace())
-            {
-                filter = new BsonDocument();
-            }
-            else if (getAfterId)
-            {
-                filter = new BsonDocument("_id", new BsonDocument("$gt", id.ToObjectId()));
-            }
-            else filter = new BsonDocument("_id", new BsonDocument("$lt", id.ToObjectId()));
-
-            return filter;
-        }
-
         private BsonDocument GetCollectionStats(string collectionName)
         {
             var command = new BsonDocumentCommand<BsonDocument>(new BsonDocument { { "collstats", collectionName } });
@@ -103,11 +140,20 @@ namespace Lollipop.Services.MongoLogging
 
         public async Task DeleteCollection(string collectionName)
         {
+            if (collectionName.IsNullOrWhiteSpace())
+                throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(collectionName));
+
             await _database.DropCollectionAsync(collectionName);
         }
 
         public async Task InsertLogs(InsertLogsRequest request)
         {
+            if (request.CollectionName.IsNullOrWhiteSpace())
+                throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.CollectionName));
+
+            if (request.Logs == null || !request.Logs.Any())
+                throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.Logs));
+
             await (await GetCollection(request.CollectionName)).InsertManyAsync(request.Logs);
         }
 
