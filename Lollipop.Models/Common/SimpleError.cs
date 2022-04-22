@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Lollipop.Models.Common
+﻿namespace Lollipop.Models.Common
 {
     public class SimpleError
     {

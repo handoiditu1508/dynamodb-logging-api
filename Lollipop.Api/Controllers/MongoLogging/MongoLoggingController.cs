@@ -1,5 +1,4 @@
-﻿using Lollipop.Helpers;
-using Lollipop.Helpers.Extensions;
+﻿using Lollipop.Helpers.Extensions;
 using Lollipop.Models.Common;
 using Lollipop.Models.Requests.MongoLogging;
 using Lollipop.Models.Responses.MongoLogging;
@@ -32,7 +31,7 @@ namespace Lollipop.Api.Controllers.MongoLogging
         /// <returns>List of logs along with total collection size and count.</returns>
         [HttpPost]
         [Route(nameof(MongoLoggingController.GetOutermostLogs))]
-        [ProducesResponseType(typeof(GetLogsResponse),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GetLogsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(SimpleError), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<GetLogsResponse>> GetOutermostLogs(GetOutermostLogsRequest request)
