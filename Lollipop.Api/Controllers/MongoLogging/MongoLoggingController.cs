@@ -42,7 +42,7 @@ namespace Lollipop.Api.Controllers.MongoLogging
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.ToSimpleError());
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.ToSimpleError());
             }
         }
 
@@ -71,7 +71,7 @@ namespace Lollipop.Api.Controllers.MongoLogging
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.ToSimpleError());
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.ToSimpleError());
             }
         }
 
@@ -93,7 +93,7 @@ namespace Lollipop.Api.Controllers.MongoLogging
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.ToSimpleError());
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.ToSimpleError());
             }
         }
 
@@ -123,7 +123,7 @@ namespace Lollipop.Api.Controllers.MongoLogging
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.ToSimpleError());
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.ToSimpleError());
             }
         }
 
@@ -144,7 +144,7 @@ namespace Lollipop.Api.Controllers.MongoLogging
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.ToSimpleError());
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.ToSimpleError());
             }
         }
     }
