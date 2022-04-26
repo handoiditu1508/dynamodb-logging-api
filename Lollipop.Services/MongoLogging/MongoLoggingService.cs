@@ -151,7 +151,7 @@ namespace Lollipop.Services.MongoLogging
             if (request.CollectionName.IsNullOrWhiteSpace())
                 throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.CollectionName));
 
-            if (request.Logs == null || !request.Logs.Any())
+            if (request.Logs.IsNullOrEmpty())
                 throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.Logs));
 
             await (await GetCollection(request.CollectionName)).InsertManyAsync(request.Logs);
