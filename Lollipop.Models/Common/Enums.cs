@@ -2,15 +2,12 @@
 
 namespace Lollipop.Models.Common
 {
-    public class Enums
+    public enum EnumExceptionGroup
     {
-        public enum ExceptionGroup
-        {
-            [Description("SYSTEM")]
-            System,
-            [Description("VALIDATION")]
-            Validation
-        }
+        [Description("SYSTEM")]
+        System,
+        [Description("VALIDATION")]
+        Validation
     }
 
     public class NameValueAttribute : Attribute

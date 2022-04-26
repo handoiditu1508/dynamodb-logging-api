@@ -1,5 +1,5 @@
 ﻿using Lollipop.Helpers.Extensions;
-using static Lollipop.Models.Common.Enums;
+using Lollipop.Models.Common;
 
 namespace Lollipop.Helpers
 {
@@ -9,7 +9,7 @@ namespace Lollipop.Helpers
 
         public string Code { get; set; }
 
-        public CustomException(ExceptionGroup group, string code, string message) : base(message)
+        public CustomException(EnumExceptionGroup group, string code, string message) : base(message)
         {
             Group = group.GetDescription();
             Code = code;
@@ -17,12 +17,12 @@ namespace Lollipop.Helpers
 
         public static class System
         {
-            public static readonly CustomException UnexpectedError = new(ExceptionGroup.System, "SYSTEM_001", "Unexpected error.");
+            public static readonly CustomException UnexpectedError = new(EnumExceptionGroup.System, "SYSTEM_001", "Unexpected error.");
         }
 
         public static class Validation
         {
-            public static CustomException PropertyIsNullOrEmpty(string propertyName) => new CustomException(ExceptionGroup.Validation, "VALIDATION_001", $"Property {propertyName} is null or empty.");
+            public static CustomException PropertyIsNullOrEmpty(string propertyName) => new CustomException(EnumExceptionGroup.Validation, "VALIDATION_001", $"Property {propertyName} is null or empty.");
         }
     }
 }

@@ -32,7 +32,6 @@ namespace Lollipop.Api.Controllers.MongoLogging
         [HttpPost]
         [Route(nameof(MongoLoggingController.GetOutermostLogs))]
         [ProducesResponseType(typeof(GetLogsResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(SimpleError), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<GetLogsResponse>> GetOutermostLogs(GetOutermostLogsRequest request)
         {
@@ -61,7 +60,6 @@ namespace Lollipop.Api.Controllers.MongoLogging
         [HttpPost]
         [Route(nameof(MongoLoggingController.GetNearbyLogs))]
         [ProducesResponseType(typeof(GetLogsResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(SimpleError), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<GetLogsResponse>> GetNearbyLogs(GetNearbyLogsRequest request)
         {
@@ -82,7 +80,6 @@ namespace Lollipop.Api.Controllers.MongoLogging
         [HttpDelete]
         [Route(nameof(MongoLoggingController.DeleteCollection))]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(SimpleError), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> DeleteCollection(string collectionName)
         {
@@ -112,7 +109,6 @@ namespace Lollipop.Api.Controllers.MongoLogging
         [HttpPost]
         [Route(nameof(MongoLoggingController.InsertLogs))]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(SimpleError), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> InsertLogs(InsertLogsRequest request)
         {
@@ -134,7 +130,6 @@ namespace Lollipop.Api.Controllers.MongoLogging
         [HttpGet]
         [Route(nameof(MongoLoggingController.GetCollectionNames))]
         [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(SimpleError), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<string>>> GetCollectionNames()
         {
