@@ -78,7 +78,7 @@ namespace Lollipop.Api.Controllers.MongoLogging
         /// </summary>
         /// <param name="collectionName">Name of the collection to be deleted.</param>
         [HttpDelete]
-        [Route(nameof(MongoLoggingController.DeleteCollection))]
+        [Route(nameof(MongoLoggingController.DeleteCollection) + "/{collectionName}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(SimpleError), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> DeleteCollection(string collectionName)
