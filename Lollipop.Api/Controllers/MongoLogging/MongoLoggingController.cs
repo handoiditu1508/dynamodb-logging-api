@@ -124,6 +124,35 @@ namespace Lollipop.Api.Controllers.MongoLogging
         }
 
         /// <summary>
+        /// Insert logs into collection.
+        /// </summary>
+        /// <param name="logs.id">Not required, auto generated!</param>
+        /// <param name="logs.createdDate">Not required, auto generated!</param>
+        /// <param name="logs.logLevel">Critical level of the logs.</param>
+        /// <param name="logs.message">Message of the log.</param>
+        /// <param name="logs.stackTrace">Exception stack trace if any.</param>
+        /// <param name="logs.source">Exception source if any.</param>
+        /// <param name="logs.group">Group that logs belong to.</param>
+        /// <param name="logs.code">Exception code.</param>
+        /// <param name="collectionName">Name of the collection.</param>
+        [HttpPost]
+        [Route(nameof(MongoLoggingController.InsertLog))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SimpleError), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> InsertLog(InsertLogRequest request)
+        {
+            try
+            {
+                await _loggingService.InsertLog(request);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.ToSimpleError());
+            }
+        }
+
+        /// <summary>
         /// Get all collection names.
         /// </summary>
         /// <returns>List of string for collection names.</returns>

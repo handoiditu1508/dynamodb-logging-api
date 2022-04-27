@@ -154,7 +154,25 @@ namespace Lollipop.Services.MongoLogging
             if (request.Logs.IsNullOrEmpty())
                 throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.Logs));
 
+            foreach (var log in request.Logs)
+            {
+                log.CreatedDate = DateTime.UtcNow;
+            }
+
             await (await GetCollection(request.CollectionName)).InsertManyAsync(request.Logs);
+        }
+
+        public async Task InsertLog(InsertLogRequest request)
+        {
+            if (request.CollectionName.IsNullOrWhiteSpace())
+                throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.CollectionName));
+
+            if (request.Log == null)
+                throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.Log));
+
+            request.Log.CreatedDate = DateTime.UtcNow;
+
+            await (await GetCollection(request.CollectionName)).InsertOneAsync(request.Log);
         }
 
         public async Task<IEnumerable<string>> GetCollectionNames()
