@@ -124,16 +124,16 @@ namespace Lollipop.Api.Controllers.MongoLogging
         }
 
         /// <summary>
-        /// Insert logs into collection.
+        /// Insert log into collection.
         /// </summary>
-        /// <param name="logs.id">Not required, auto generated!</param>
-        /// <param name="logs.createdDate">Not required, auto generated!</param>
-        /// <param name="logs.logLevel">Critical level of the logs.</param>
-        /// <param name="logs.message">Message of the log.</param>
-        /// <param name="logs.stackTrace">Exception stack trace if any.</param>
-        /// <param name="logs.source">Exception source if any.</param>
-        /// <param name="logs.group">Group that logs belong to.</param>
-        /// <param name="logs.code">Exception code.</param>
+        /// <param name="log.id">Not required, auto generated!</param>
+        /// <param name="log.createdDate">Not required, auto generated!</param>
+        /// <param name="log.logLevel">Critical level of the logs.</param>
+        /// <param name="log.message">Message of the log.</param>
+        /// <param name="log.stackTrace">Exception stack trace if any.</param>
+        /// <param name="log.source">Exception source if any.</param>
+        /// <param name="log.group">Group that logs belong to.</param>
+        /// <param name="log.code">Exception code.</param>
         /// <param name="collectionName">Name of the collection.</param>
         [HttpPost]
         [Route(nameof(MongoLoggingController.InsertLog))]
