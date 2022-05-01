@@ -1,3 +1,4 @@
+using Lollipop.Api.Middlewares;
 using Lollipop.Services.MongoLogging;
 using Lollipop.Services.MongoLogging.Abstractions;
 
@@ -39,6 +40,8 @@ app.UseHttpsRedirection();
 app.UseCors(appCors);
 
 app.UseAuthorization();
+
+app.UseMiddleware<ApiKeyMiddleware>();
 
 app.MapControllers();
 

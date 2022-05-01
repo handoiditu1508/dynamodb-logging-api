@@ -17,8 +17,8 @@ namespace Lollipop.Services.MongoLogging
 
         public MongoLoggingService()
         {
-            _connectionString = EnvironmentVariable.ConnectionString;
-            _databaseName = EnvironmentVariable.Database;
+            _connectionString = AppSettings.MongoLogging.ConnectionString;
+            _databaseName = AppSettings.MongoLogging.Database;
             _database = GetDatabase();
         }
 

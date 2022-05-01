@@ -24,5 +24,11 @@ namespace Lollipop.Helpers
         {
             public static CustomException PropertyIsNullOrEmpty(string propertyName) => new CustomException(EnumExceptionGroup.Validation, "VALIDATION_001", $"Property {propertyName} is null or empty.");
         }
+
+        public static class Authentication
+        {
+            public static readonly CustomException ApiKeyNotFound = new(EnumExceptionGroup.Authentication, "AUTHENTICATION_001", "Api key not found.");
+            public static readonly CustomException InvalidApiKey = new(EnumExceptionGroup.Authentication, "AUTHENTICATION_002", "Invalid api key.");
+        }
     }
 }

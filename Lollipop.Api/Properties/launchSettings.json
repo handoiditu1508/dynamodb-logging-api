@@ -26,7 +26,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "Log_ConnectionString": "mongodb+srv://admin:admin123456@mycluster.h1t4z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-        "Log_Database": "MyLogs"
+        "Log_Database": "MyLogs",
+        "ApiKeyValue": "qwertyuiopasdfghjklzxcvbnm"
       }
     },
     "Production": {
@@ -36,7 +37,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production",
         "Log_ConnectionString": "mongodb+srv://admin:admin123456@mycluster.h1t4z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-        "Log_Database": "MyLogs"
+        "Log_Database": "MyLogs",
+        "ApiKeyValue": "qwertyuiopasdfghjklzxcvbnm"
       }
     }
   }

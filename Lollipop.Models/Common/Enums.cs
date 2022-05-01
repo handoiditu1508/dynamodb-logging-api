@@ -7,7 +7,9 @@ namespace Lollipop.Models.Common
         [Description("SYSTEM")]
         System,
         [Description("VALIDATION")]
-        Validation
+        Validation,
+        [Description("AUTHENTICATION")]
+        Authentication
     }
 
     public class NameValueAttribute : Attribute
