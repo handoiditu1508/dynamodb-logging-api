@@ -28,8 +28,8 @@ namespace Lollipop.Helpers
 
         public static class MongoLogging
         {
-            public static string ConnectionString => Configuration["MongoLogging:ConnectionString"] ?? EnvironmentVariable.ConnectionString;
-            public static string Database => Configuration["MongoLogging:Database"] ?? EnvironmentVariable.Database;
+            public static string ConnectionString => Configuration["MongoLogging:ConnectionString"].IsNullOrEmpty() ? EnvironmentVariable.ConnectionString : Configuration["MongoLogging:ConnectionString"];
+            public static string Database => Configuration["MongoLogging:Database"].IsNullOrEmpty() ? EnvironmentVariable.Database : Configuration["MongoLogging:Database"];
             public static long MaxCollectionSize => long.Parse(Configuration["MongoLogging:MaxCollectionSize"]);
             public static int MaxDocuments => int.Parse(Configuration["MongoLogging:MaxDocuments"]);
         }
@@ -37,7 +37,7 @@ namespace Lollipop.Helpers
         public static class ApiKey
         {
             public static string Name => Configuration["ApiKey:Name"];
-            public static string Value => Configuration["ApiKey:Value"] ?? EnvironmentVariable.ApiKeyValue;
+            public static string Value => Configuration["ApiKey:Value"].IsNullOrEmpty() ? EnvironmentVariable.ApiKeyValue : Configuration["ApiKey:Value"];
         }
     }
 }
