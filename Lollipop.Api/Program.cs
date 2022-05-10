@@ -1,6 +1,8 @@
 using Lollipop.Api.Middlewares;
+using Lollipop.Helpers;
 using Lollipop.Services.MongoLogging;
 using Lollipop.Services.MongoLogging.Abstractions;
+using Microsoft.OpenApi.Models;
 
 var appCors = "AppCors";
 
@@ -22,7 +24,26 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Add api key authentication for swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme()
+    {
+        Type = SecuritySchemeType.ApiKey,
+        In = ParameterLocation.Header,
+        Name = AppSettings.ApiKey.Name
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "ApiKey" }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 builder.Services.AddScoped<IMongoLoggingService, MongoLoggingService>();
 
