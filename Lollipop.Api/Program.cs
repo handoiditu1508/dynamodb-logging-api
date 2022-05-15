@@ -2,6 +2,7 @@ using Lollipop.Api.Middlewares;
 using Lollipop.Helpers;
 using Lollipop.Services.MongoLogging;
 using Lollipop.Services.MongoLogging.Abstractions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 
 var appCors = "AppCors";
@@ -15,10 +16,15 @@ builder.Services.AddCors(options =>
     options.AddPolicy(appCors,
         policy =>
         {
-            policy.WithOrigins("http://localhost:4000")
+            policy.WithOrigins("http://localhost:4000", "https://localhost:44307")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
+});
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
 });
 
 builder.Services.AddControllers();

@@ -11,11 +11,16 @@ namespace Lollipop.Helpers.Extensions
             if (exception.GetType() == typeof(CustomException))
             {
                 var customException = (CustomException)exception;
-                error = customException.ToSimpleError();
+                error = new SimpleError
+                {
+                    Code = customException.Code,
+                    Message = customException.Message,
+                    Group = customException.Group
+                };
             }
             else
             {
-                var customException = CustomException.System.UnexpectedError;
+                var customException = CustomException.System.UnexpectedError();
                 error = customException.ToSimpleError();
             }
 
