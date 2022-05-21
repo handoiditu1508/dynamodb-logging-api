@@ -4,6 +4,7 @@ using Lollipop.Services.MongoLogging;
 using Lollipop.Services.MongoLogging.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var appCors = "AppCors";
 
@@ -31,15 +32,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 // Add api key authentication for swagger
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(options =>
 {
-    c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme()
+    options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme()
     {
         Type = SecuritySchemeType.ApiKey,
         In = ParameterLocation.Header,
         Name = AppSettings.ApiKey.Name
     });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement()
     {
         {
             new OpenApiSecurityScheme
@@ -49,6 +50,11 @@ builder.Services.AddSwaggerGen(c =>
             Array.Empty<string>()
         }
     });
+
+    // Add support for swagger endpoint description
+    // https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
 builder.Services.AddScoped<IMongoLoggingService, MongoLoggingService>();

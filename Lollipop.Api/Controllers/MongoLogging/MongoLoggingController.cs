@@ -23,14 +23,24 @@ namespace Lollipop.Api.Controllers.MongoLogging
         /// <summary>
         /// Get Latest or Oldest logs.
         /// </summary>
-        /// <param name="collectionName">Collection name.</param>
-        /// <param name="limit">Maximum logs to retrieve.</param>
-        /// <param name="filterModel.group">Group that logs belong to.</param>
-        /// <param name="filterModel.logLevels">Critical level of the logs.</param>
-        /// <param name="filterModel.startDate">Logs range from.</param>
-        /// <param name="filterModel.endDate">Logs range to.</param>
-        /// <param name="filterModel.latest">Get by latest logs or oldest log.</param>
         /// <returns>List of logs along with total collection size and count.</returns>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     {
+        ///        "collectionName": "Dev_Main",// Collection name.
+        ///        "limit": 10,
+        ///        "filterModel": {
+        ///           "group": "SYSTEM",// Group that logs belong to.
+        ///           "logLevels": [0, 3, 5],// 0 - Trace, 1 - Debug, 2 - Information, 3 - Warning, 4 - Error, 5 - Critical, 6 - None
+        ///           "startDate": "2000-5-15",// Logs range from.
+        ///           "endDate": "2000-5-16",// Logs range to.
+        ///           "latest": true// Get by latest logs or oldest log.
+        ///        }
+        ///     }
+        ///
+        /// </remarks>
         [HttpPost]
         [Route(nameof(MongoLoggingController.GetOutermostLogs))]
         [ProducesResponseType(typeof(GetLogsResponse), StatusCodes.Status200OK)]
@@ -50,15 +60,25 @@ namespace Lollipop.Api.Controllers.MongoLogging
         /// <summary>
         /// Get Latest or Oldest logs.
         /// </summary>
-        /// <param name="collectionName">Collection name.</param>
-        /// <param name="limit">Maximum logs to retrieve.</param>
-        /// <param name="filterModel.group">Group that logs belong to.</param>
-        /// <param name="filterModel.logLevels">Critical level of the logs.</param>
-        /// <param name="filterModel.startDate">Logs range from.</param>
-        /// <param name="filterModel.endDate">Logs range to.</param>
-        /// <param name="filterModel.pivotId">Id of the pivot log.</param>
-        /// <param name="filterModel.getAfterPivotId">Get logs after the pivot log or before the pivot log.</param>
         /// <returns>List of logs along with total collection size and count.</returns>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     {
+        ///        "collectionName": "Dev_Main",// Collection name.
+        ///        "limit": 10,
+        ///        "filterModel": {
+        ///           "group": "SYSTEM",// Group that logs belong to.
+        ///           "logLevels": [0, 3, 5],// 0 - Trace, 1 - Debug, 2 - Information, 3 - Warning, 4 - Error, 5 - Critical, 6 - None
+        ///           "startDate": "2000-5-15",// Logs range from.
+        ///           "endDate": "2000-5-16",// Logs range to.
+        ///           "pivotId": "abcdefg12345",// Id of the pivot log.
+        ///           "getAfterPivotId": true// Get logs after the pivot log or before the pivot log.
+        ///        }
+        ///     }
+        ///
+        /// </remarks>
         [HttpPost]
         [Route(nameof(MongoLoggingController.GetNearbyLogs))]
         [ProducesResponseType(typeof(GetLogsResponse), StatusCodes.Status200OK)]
@@ -99,15 +119,27 @@ namespace Lollipop.Api.Controllers.MongoLogging
         /// <summary>
         /// Insert logs into collection.
         /// </summary>
-        /// <param name="logs.id">Not required, auto generated!</param>
-        /// <param name="logs.createdDate">Not required, auto generated!</param>
-        /// <param name="logs.logLevel">Critical level of the logs.</param>
-        /// <param name="logs.message">Message of the log.</param>
-        /// <param name="logs.stackTrace">Exception stack trace if any.</param>
-        /// <param name="logs.source">Exception source if any.</param>
-        /// <param name="logs.group">Group that logs belong to.</param>
-        /// <param name="logs.code">Exception code.</param>
-        /// <param name="collectionName">Name of the collection.</param>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     {
+        ///        "collectionName": "Dev_Main",// Name of the collection.
+        ///        "logs": [
+        ///           {
+        ///              "id": null,// Not required, auto generated!
+        ///              "createdDate": null,// Not required, auto generated!
+        ///              "logLevel": 3,// 0 - Trace, 1 - Debug, 2 - Information, 3 - Warning, 4 - Error, 5 - Critical, 6 - None
+        ///              "message": "Unexpected error.",// Message of the log.
+        ///              "stackTrace": "string",// Exception stack trace if any.
+        ///              "source": "string",// Exception source if any.
+        ///              "group": "SYSTEM",// Group that logs belong to.
+        ///              "code": "SYSTEM_001"// Exception code.
+        ///           }
+        ///        ]
+        ///     }
+        ///
+        /// </remarks>
         [HttpPost]
         [Route(nameof(MongoLoggingController.InsertLogs))]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -128,15 +160,25 @@ namespace Lollipop.Api.Controllers.MongoLogging
         /// <summary>
         /// Insert log into collection.
         /// </summary>
-        /// <param name="log.id">Not required, auto generated!</param>
-        /// <param name="log.createdDate">Not required, auto generated!</param>
-        /// <param name="log.logLevel">Critical level of the logs.</param>
-        /// <param name="log.message">Message of the log.</param>
-        /// <param name="log.stackTrace">Exception stack trace if any.</param>
-        /// <param name="log.source">Exception source if any.</param>
-        /// <param name="log.group">Group that logs belong to.</param>
-        /// <param name="log.code">Exception code.</param>
-        /// <param name="collectionName">Name of the collection.</param>
+        /// <remarks>
+        /// 
+        /// Sample request:
+        ///
+        ///     {
+        ///        "collectionName": "Dev_Main",// Name of the collection.
+        ///        "log": {
+        ///           "id": null,// Not required, auto generated!
+        ///           "createdDate": null,// Not required, auto generated!
+        ///           "logLevel": 3,// 0 - Trace, 1 - Debug, 2 - Information, 3 - Warning, 4 - Error, 5 - Critical, 6 - None
+        ///           "message": "Unexpected error.",// Message of the log.
+        ///           "stackTrace": "string",// Exception stack trace if any.
+        ///           "source": "string",// Exception source if any.
+        ///           "group": "SYSTEM",// Group that logs belong to.
+        ///           "code": "SYSTEM_001"// Exception code.
+        ///        }
+        ///     }
+        ///
+        /// </remarks>
         [HttpPost]
         [Route(nameof(MongoLoggingController.InsertLog))]
         [ProducesResponseType(StatusCodes.Status200OK)]
