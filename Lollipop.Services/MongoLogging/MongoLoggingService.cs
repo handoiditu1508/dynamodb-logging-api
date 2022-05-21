@@ -75,7 +75,7 @@ namespace Lollipop.Services.MongoLogging
                 throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.CollectionName));
 
             if (request.FilterModel == null)
-                throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.FilterModel));
+                request.FilterModel = new OutermostLogsFilterModel();
 
             var collection = await GetCollection(request.CollectionName);
 
@@ -98,7 +98,7 @@ namespace Lollipop.Services.MongoLogging
                 throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.CollectionName));
 
             if (request.FilterModel == null)
-                throw CustomException.Validation.PropertyIsNullOrEmpty(nameof(request.FilterModel));
+                request.FilterModel = new NearbyLogsFilterModel();
 
             var collection = await GetCollection(request.CollectionName);
 

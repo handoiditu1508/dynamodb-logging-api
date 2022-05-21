@@ -2,6 +2,6 @@
 {
     public class OutermostLogsFilterModel : LogsFilterModel
     {
-        public bool Latest { get; set; }
+        public bool Latest { get; set; } = true;
     }
 }

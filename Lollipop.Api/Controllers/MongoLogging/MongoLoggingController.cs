@@ -1,4 +1,5 @@
-﻿using Lollipop.Helpers.Extensions;
+﻿using Lollipop.Api.Attributes;
+using Lollipop.Helpers.Extensions;
 using Lollipop.Models.Common;
 using Lollipop.Models.Requests.MongoLogging;
 using Lollipop.Models.Responses.MongoLogging;
@@ -9,6 +10,7 @@ namespace Lollipop.Api.Controllers.MongoLogging
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiKeyAuthenticate]
     public class MongoLoggingController : ControllerBase
     {
         private readonly IMongoLoggingService _loggingService;
