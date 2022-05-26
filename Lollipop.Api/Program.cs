@@ -1,3 +1,4 @@
+using Lollipop.Api.Attributes;
 using Lollipop.Api.Middlewares;
 using Lollipop.Helpers;
 using Lollipop.Services.MongoLogging;
@@ -17,7 +18,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(appCors,
         policy =>
         {
-            policy.WithOrigins("http://localhost:4000", "https://localhost:44307")
+            policy.WithOrigins("http://localhost:3000")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
@@ -58,6 +59,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddScoped<IMongoLoggingService, MongoLoggingService>();
+builder.Services.AddSafeListActionFilter();
 
 var app = builder.Build();
 
@@ -73,6 +75,8 @@ app.UseHttpsRedirection();
 app.UseCors(appCors);
 
 app.UseAuthorization();
+
+app.UseMiddleware<SafeListMiddleware>(AppSettings.SafeList);
 
 app.UseMiddleware<ApiKeyMiddleware>();
 

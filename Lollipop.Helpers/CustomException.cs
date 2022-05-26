@@ -23,7 +23,7 @@ namespace Lollipop.Helpers
 
         public static class Validation
         {
-            public static CustomException PropertyIsNullOrEmpty(string propertyName) => new CustomException(EnumExceptionGroup.Validation, "VALIDATION_001", $"Property {propertyName} is null or empty.");
+            public static CustomException PropertyIsNullOrEmpty(string propertyName) => new(EnumExceptionGroup.Validation, "VALIDATION_001", $"Property {propertyName} is null or empty.");
         }
 
         public static class Authentication
